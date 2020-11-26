@@ -216,3 +216,6 @@ Error Number:515,State:2,Class:16
 2020-11-26 11:21:08.5886 ERROR Object sent from client is null. Controller: Companies, action: UpdateCompany
 2020-11-26 11:32:07.4803 ERROR Object sent from client is null. Controller: Companies, action: UpdateCompany
 2020-11-26 11:32:19.6718 INFO Company with id: c9d4c053-49b6-410c-bc78-2d54a9991870 doesn't exist in the database.
+2020-11-26 11:47:17.6206 INFO Company with id: c9d4c053-49b6-410c-bc78-2d54a9991870 doesn't exist in the database.
+2020-11-26 11:47:18.7999 INFO Company with id: c9d4c053-49b6-410c-bc78-2d54a9991870 doesn't exist in the database.
+2020-11-26 11:47:23.8791 INFO Company with id: c9d4c053-49b6-410c-bc78-2d54a9991870 doesn't exist in the database.

@@ -6,6 +6,7 @@ using AutoMapper;
 using Contracts;
 using Entities.DataTransferObjects;
 using Entities.Models;
+using Entities.RequestFeatures;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
@@ -31,14 +32,18 @@ namespace UltimateASPNETCore3WebAPI.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> GetCompanies()
+        public async Task<IActionResult> GetEmployeesForCompany(Guid companyId, [FromQuery] EmployeeParameters employeeParameters)
         {
-            //throw new Exception("Exception");
-
-            var companies = await _repository.Company.GetAllCompaniesAsync(trackChanges: false);
-            var companiesDto = _mapper.Map<IEnumerable<CompanyDto>>(companies);
-            return Ok(companiesDto);
-
+            var company = await _repository.Company.GetCompanyAsync(companyId, trackChanges:
+           false);
+            if (company == null)
+            {
+                _logger.LogInfo($"Company with id: {companyId} doesn't exist in the database.");
+                return NotFound();
+            }
+            var employeesFromDb = await _repository.Employee.GetEmployeesAsync(companyId, employeeParameters, trackChanges: false);
+            var employeesDto = _mapper.Map<IEnumerable<EmployeeDto>>(employeesFromDb);
+            return Ok(employeesDto);
         }
 
         [HttpGet("{id}", Name = "CompanyById")]

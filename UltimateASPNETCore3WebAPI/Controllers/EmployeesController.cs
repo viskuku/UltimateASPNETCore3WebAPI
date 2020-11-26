@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using UltimateASPNETCore3WebAPI.ActionFilters;
+using Entities.RequestFeatures;
+using Newtonsoft.Json;
 
 namespace UltimateASPNETCore3WebAPI.Controllers
 {
@@ -30,19 +32,24 @@ namespace UltimateASPNETCore3WebAPI.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> GetEmployeesForCompany(Guid companyId)
+        public async Task<IActionResult> GetEmployeesForCompany(Guid companyId, [FromQuery] EmployeeParameters employeeParameters)
         {
-            var company = await _repository.Company.GetCompanyAsync(companyId, trackChanges: false);
+            var company = await _repository.Company.GetCompanyAsync(companyId, trackChanges:
+           false);
             if (company == null)
             {
                 _logger.LogInfo($"Company with id: {companyId} doesn't exist in the database.");
                 return NotFound();
             }
             var employeesFromDb = await _repository.Employee.GetEmployeesAsync(companyId,
-           trackChanges: false);
+           employeeParameters, trackChanges: false);
+
+             Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(employeesFromDb.MetaData));
+
             var employeesDto = _mapper.Map<IEnumerable<EmployeeDto>>(employeesFromDb);
             return Ok(employeesDto);
         }
+
 
         [HttpGet("{id}", Name = "GetEmployeeForCompany")]
         public async Task<IActionResult> GetEmployeeForCompany(Guid companyId, Guid id)
