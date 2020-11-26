@@ -208,3 +208,11 @@ Error Number:515,State:2,Class:16
 2020-11-26 10:06:41.9447 ERROR Invalid model state for the patch document
 2020-11-26 10:41:58.1983 INFO Company with id: c9d4c053-49b6-410c-bc78-2d54a9991870 doesn't exist in the database.
 2020-11-26 10:42:03.4758 INFO Company with id: c9d4c053-49b6-410c-bc78-2d54a9991870 doesn't exist in the database.
+2020-11-26 11:02:37.8702 INFO Company with id: d5351cfd-9e73-4cbe-9177-08d892139330 doesn't exist in the database.
+2020-11-26 11:05:30.2303 INFO Company with id: 562421e0-8c68-48ce-a159-08d8921434f4 doesn't exist in the database.
+2020-11-26 11:07:47.8854 ERROR Invalid model state for the object. Controller: Companies, action: CreateCompany 
+2020-11-26 11:14:30.5108 INFO Company with id: c9d4c053-49b6-410c-bc78-2d54a9991870 doesn't exist in the database.
+2020-11-26 11:17:44.3897 INFO Company with id: 7f5848cf-7433-4351-5f46-08d88fbb8b84 doesn't exist in the database.
+2020-11-26 11:21:08.5886 ERROR Object sent from client is null. Controller: Companies, action: UpdateCompany
+2020-11-26 11:32:07.4803 ERROR Object sent from client is null. Controller: Companies, action: UpdateCompany
+2020-11-26 11:32:19.6718 INFO Company with id: c9d4c053-49b6-410c-bc78-2d54a9991870 doesn't exist in the database.
