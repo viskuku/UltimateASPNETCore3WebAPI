@@ -219,3 +219,10 @@ Error Number:515,State:2,Class:16
 2020-11-26 11:47:17.6206 INFO Company with id: c9d4c053-49b6-410c-bc78-2d54a9991870 doesn't exist in the database.
 2020-11-26 11:47:18.7999 INFO Company with id: c9d4c053-49b6-410c-bc78-2d54a9991870 doesn't exist in the database.
 2020-11-26 11:47:23.8791 INFO Company with id: c9d4c053-49b6-410c-bc78-2d54a9991870 doesn't exist in the database.
+2020-11-26 12:15:59.6067 INFO Company with id: c9d4c053-49b6-410c-bc78-2d54a9991870 doesn't exist in the database.
+2020-11-26 12:16:00.7987 INFO Company with id: c9d4c053-49b6-410c-bc78-2d54a9991870 doesn't exist in the database.
+2020-11-26 12:16:05.8933 INFO Company with id: c9d4c053-49b6-410c-bc78-2d54a9991870 doesn't exist in the database.
+2020-11-26 12:16:35.9940 INFO Company with id: c9d4c053-49b6-410c-bc78-2d54a9991870 doesn't exist in the database.
+2020-11-26 12:17:36.0781 INFO Company with id: c9d4c053-49b6-410c-bc78-2d54a9991870 doesn't exist in the database.
+2020-11-26 12:22:36.1725 INFO Company with id: c9d4c053-49b6-410c-bc78-2d54a9991870 doesn't exist in the database.
+2020-11-26 12:32:36.2491 INFO Company with id: c9d4c053-49b6-410c-bc78-2d54a9991870 doesn't exist in the database.
