@@ -25,3 +25,8 @@
 2020-11-23 09:54:03.6288 INFO Company with id: c9d4c053-49b6-410c-bc78-2d54a9991873 doesn't exist in the database.
 2020-11-23 10:07:48.6375 INFO Employee with id: 86dba8c0-d178-41e7-938c-ed49778fb52c doesn't exist in the database.
 2020-11-23 10:07:52.8878 INFO Employee with id: 86dba8c0-d178-41e7-938c-ed49778fb52c doesn't exist in the database.
+2020-11-23 11:13:35.3589 INFO Company with id: 53a1237a-3ed3-4462-b9f0-5a7bb1056a33 doesn't exist in the database.
+2020-11-23 11:23:07.6984 INFO Company with id: 53a1237a-3ed3-4462-b9f0-5a7bb1056a33 doesn't exist in the database.
+2020-11-23 11:25:35.5054 INFO Company with id: 53a1237a-3ed3-4462-b9f0-5a7bb1056a33 doesn't exist in the database.
+2020-11-23 11:28:47.6665 INFO Company with id: db224d06-af59-4087-a84a-08d88fbb6b4a doesn't exist in the database.
+2020-11-23 11:29:12.5143 INFO Company with id: db224d06-af59-4087-a84a-08d88fbb6b4a doesn't exist in the database.

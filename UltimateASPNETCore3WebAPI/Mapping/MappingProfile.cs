@@ -18,9 +18,13 @@ namespace UltimateASPNETCore3WebAPI.Mapping
 
 
             CreateMap<Employee, EmployeeDto>();
+            CreateMap<CompanyForCreationDto, Company>();
+            CreateMap<EmployeeForCreationDto, Employee>();
+
+
         }
 
-     
+
 
     }
 }
