@@ -19,6 +19,7 @@ using NLog;
 using Repository.DataShaping;
 using UltimateASPNETCore3WebAPI.ActionFilters;
 using UltimateASPNETCore3WebAPI.Extensions;
+using UltimateASPNETCore3WebAPI.Utility;
 
 namespace UltimateASPNETCore3WebAPI
 {
@@ -39,12 +40,10 @@ namespace UltimateASPNETCore3WebAPI
 
             services.AddScoped<ValidationFilterAttribute>();
             services.AddScoped<ValidateCompanyExistsAttribute>();
+            services.AddScoped<ValidateMediaTypeAttribute>();
             services.AddScoped<ValidateEmployeeForCompanyExistsAttribute>();
             services.AddScoped <IDataShaper<EmployeeDto>, DataShaper<EmployeeDto>>();
-
-
-
-
+            services.AddScoped<EmployeeLinks>();
 
             services.Configure<ApiBehaviorOptions>(options =>
             {
@@ -56,6 +55,8 @@ namespace UltimateASPNETCore3WebAPI
             services.ConfigureSqlContext(Configuration);
             services.ConfigureRepositoryManager();
             services.AddAutoMapper(typeof(Startup));
+            services.ConfigureVersioning();
+
 
             services.AddControllers(config =>
             {
@@ -65,6 +66,9 @@ namespace UltimateASPNETCore3WebAPI
             }).AddNewtonsoftJson()
             .AddXmlDataContractSerializerFormatters()
              .AddCustomCSVFormatter();
+
+             services.AddCustomMediaTypes();
+
 
 
         }

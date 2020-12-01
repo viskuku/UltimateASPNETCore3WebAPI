@@ -9,29 +9,51 @@ using Entities.Models;
 using Entities.RequestFeatures;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
+using Microsoft.AspNetCore.Routing;
 using UltimateASPNETCore3WebAPI.ActionFilters;
 using UltimateASPNETCore3WebAPI.ModelBinders;
+using UltimateASPNETCore3WebAPI.Utility;
 
 namespace UltimateASPNETCore3WebAPI.Controllers
 {
     [Route("api/companies")]
+
     [ApiController]
     public class CompaniesController : ControllerBase
     {
         private readonly IRepositoryManager _repository;
         private readonly ILoggerManager _logger;
         private readonly IMapper _mapper;
-        public CompaniesController(IRepositoryManager repository, ILoggerManager logger,
-       IMapper mapper)
+    
+
+
+        public CompaniesController(IRepositoryManager repository, ILoggerManager logger, IMapper mapper)
         {
             _repository = repository;
             _logger = logger;
             _mapper = mapper;
+        
+        }
+
+        
+        [HttpOptions]
+        public IActionResult GetCompaniesOptions()
+        {
+            Response.Headers.Add("Allow", "GET, OPTIONS, POST");
+            return Ok();
         }
 
 
+        [HttpGet(Name = "GetCompanies")]
+        public async Task<IActionResult> GetCompanies()
+        {
+            var companies = await _repository.Company.GetAllCompaniesAsync(trackChanges: false);
+            return Ok(companies);
+        }
+
+        /*
         [HttpGet]
+        [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
         public async Task<IActionResult> GetEmployeesForCompany(Guid companyId, [FromQuery] EmployeeParameters employeeParameters)
         {
             var company = await _repository.Company.GetCompanyAsync(companyId, trackChanges:
@@ -43,11 +65,18 @@ namespace UltimateASPNETCore3WebAPI.Controllers
             }
             var employeesFromDb = await _repository.Employee.GetEmployeesAsync(companyId, employeeParameters, trackChanges: false);
             var employeesDto = _mapper.Map<IEnumerable<EmployeeDto>>(employeesFromDb);
-            return Ok(employeesDto);
+
+
+            var links = _employeeLinks.TryGenerateLinks(employeesDto,
+            employeeParameters.Fields, companyId, HttpContext);
+            return links.HasLinks ? Ok(links.LinkedEntities) : Ok(links.ShapedEntities);
+
+
         }
+        */
+
 
         [HttpGet("{id}", Name = "CompanyById")]
-
         public async Task<IActionResult> GetCompany(Guid id)
         {
             var company = await _repository.Company.GetCompanyAsync(id, trackChanges: false);
@@ -64,7 +93,8 @@ namespace UltimateASPNETCore3WebAPI.Controllers
         }
 
 
-        [HttpPost]
+        //[HttpPost]
+        [HttpPost(Name = "CreateCompany")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public IActionResult CreateCompany([FromBody] CompanyForCreationDto company)
         {
