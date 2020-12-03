@@ -1,0 +1,2 @@
+2020-12-03 17:47:21.9599 INFO Company with id: c9d4c053-49b6-410c-bc78-2d54a9991870 doesn't exist in the database.
+2020-12-03 18:13:37.6706 ERROR Invalid model state for the object. Controller: Employees, action: UpdateEmployeeForCompany 

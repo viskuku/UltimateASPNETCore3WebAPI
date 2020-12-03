@@ -7,18 +7,19 @@ using Contracts;
 using Entities.DataTransferObjects;
 using Entities.Models;
 using Entities.RequestFeatures;
+using Marvin.Cache.Headers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using UltimateASPNETCore3WebAPI.ActionFilters;
 using UltimateASPNETCore3WebAPI.ModelBinders;
-using UltimateASPNETCore3WebAPI.Utility;
 
 namespace UltimateASPNETCore3WebAPI.Controllers
 {
     [Route("api/companies")]
 
     [ApiController]
+    [ResponseCache(CacheProfileName = "120SecondsDuration")]
     public class CompaniesController : ControllerBase
     {
         private readonly IRepositoryManager _repository;
@@ -51,32 +52,9 @@ namespace UltimateASPNETCore3WebAPI.Controllers
             return Ok(companies);
         }
 
-        /*
-        [HttpGet]
-        [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
-        public async Task<IActionResult> GetEmployeesForCompany(Guid companyId, [FromQuery] EmployeeParameters employeeParameters)
-        {
-            var company = await _repository.Company.GetCompanyAsync(companyId, trackChanges:
-           false);
-            if (company == null)
-            {
-                _logger.LogInfo($"Company with id: {companyId} doesn't exist in the database.");
-                return NotFound();
-            }
-            var employeesFromDb = await _repository.Employee.GetEmployeesAsync(companyId, employeeParameters, trackChanges: false);
-            var employeesDto = _mapper.Map<IEnumerable<EmployeeDto>>(employeesFromDb);
-
-
-            var links = _employeeLinks.TryGenerateLinks(employeesDto,
-            employeeParameters.Fields, companyId, HttpContext);
-            return links.HasLinks ? Ok(links.LinkedEntities) : Ok(links.ShapedEntities);
-
-
-        }
-        */
-
-
         [HttpGet("{id}", Name = "CompanyById")]
+        [HttpCacheExpiration(CacheLocation = CacheLocation.Public, MaxAge = 60)]
+        [HttpCacheValidation(MustRevalidate = false)]
         public async Task<IActionResult> GetCompany(Guid id)
         {
             var company = await _repository.Company.GetCompanyAsync(id, trackChanges: false);
@@ -93,7 +71,6 @@ namespace UltimateASPNETCore3WebAPI.Controllers
         }
 
 
-        //[HttpPost]
         [HttpPost(Name = "CreateCompany")]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public IActionResult CreateCompany([FromBody] CompanyForCreationDto company)
@@ -150,22 +127,6 @@ namespace UltimateASPNETCore3WebAPI.Controllers
            companyCollectionToReturn);
         }
 
-        /*
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCompany(Guid id)
-        {
-            var company = await _repository.Company.GetCompanyAsync(id, trackChanges: false);
-            if (company == null)
-            {
-                _logger.LogInfo($"Company with id: {id} doesn't exist in the database.");
-                return NotFound();
-            }
-            _repository.Company.DeleteCompany(company);
-            await _repository.SaveAsync();
-            return NoContent();
-        }
-
-        */
         [HttpDelete("{id}")]
         [ServiceFilter(typeof(ValidateCompanyExistsAttribute))]
         public async Task<IActionResult> DeleteCompany(Guid id)

@@ -27,7 +27,7 @@ namespace UltimateASPNETCore3WebAPI
     {
         public Startup(IConfiguration configuration)
         {
-            LogManager.LoadConfiguration(string.Concat(Directory.GetCurrentDirectory(),"/nlog.config"));
+            LogManager.LoadConfiguration(string.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
 
             Configuration = configuration;
         }
@@ -42,8 +42,11 @@ namespace UltimateASPNETCore3WebAPI
             services.AddScoped<ValidateCompanyExistsAttribute>();
             services.AddScoped<ValidateMediaTypeAttribute>();
             services.AddScoped<ValidateEmployeeForCompanyExistsAttribute>();
-            services.AddScoped <IDataShaper<EmployeeDto>, DataShaper<EmployeeDto>>();
+            services.AddScoped<IDataShaper<EmployeeDto>, DataShaper<EmployeeDto>>();
             services.AddScoped<EmployeeLinks>();
+            services.ConfigureResponseCaching();
+            services.ConfigureHttpCacheHeaders();
+            services.AddMemoryCache();
 
             services.Configure<ApiBehaviorOptions>(options =>
             {
@@ -62,12 +65,13 @@ namespace UltimateASPNETCore3WebAPI
             {
                 config.RespectBrowserAcceptHeader = true;
                 config.ReturnHttpNotAcceptable = true;
+                config.CacheProfiles.Add("120SecondsDuration", new CacheProfile { Duration = 120 });
+            })
+                .AddNewtonsoftJson()
+                .AddXmlDataContractSerializerFormatters()
+                .AddCustomCSVFormatter();
 
-            }).AddNewtonsoftJson()
-            .AddXmlDataContractSerializerFormatters()
-             .AddCustomCSVFormatter();
-
-             services.AddCustomMediaTypes();
+            services.AddCustomMediaTypes();
 
 
 
@@ -89,6 +93,10 @@ namespace UltimateASPNETCore3WebAPI
             {
                 ForwardedHeaders = ForwardedHeaders.All
             });
+
+            app.UseResponseCaching();
+            app.UseHttpCacheHeaders();
+            
 
 
             app.UseRouting();
