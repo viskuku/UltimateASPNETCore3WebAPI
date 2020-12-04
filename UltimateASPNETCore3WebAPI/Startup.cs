@@ -17,6 +17,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NLog;
+using Repository;
 using Repository.DataShaping;
 using UltimateASPNETCore3WebAPI.ActionFilters;
 using UltimateASPNETCore3WebAPI.Extensions;
@@ -38,12 +39,18 @@ namespace UltimateASPNETCore3WebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication();
+            services.ConfigureIdentity();
+            services.ConfigureJWT(Configuration);
 
             services.AddScoped<ValidationFilterAttribute>();
             services.AddScoped<ValidateCompanyExistsAttribute>();
             services.AddScoped<ValidateMediaTypeAttribute>();
             services.AddScoped<ValidateEmployeeForCompanyExistsAttribute>();
             services.AddScoped<IDataShaper<EmployeeDto>, DataShaper<EmployeeDto>>();
+
+            services.AddScoped<IAuthenticationManager, AuthenticationManager>();
+
             services.AddScoped<EmployeeLinks>();
             services.ConfigureResponseCaching();
             services.ConfigureHttpCacheHeaders();
@@ -106,6 +113,8 @@ namespace UltimateASPNETCore3WebAPI
             app.UseIpRateLimiting();
 
             app.UseRouting();
+            
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
