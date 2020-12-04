@@ -72,6 +72,7 @@ namespace UltimateASPNETCore3WebAPI
             services.AddAutoMapper(typeof(Startup));
             services.ConfigureVersioning();
 
+            services.ConfigureSwagger();
 
             services.AddControllers(config =>
             {
@@ -117,6 +118,12 @@ namespace UltimateASPNETCore3WebAPI
             app.UseAuthentication();
 
             app.UseAuthorization();
+            app.UseSwagger();
+            app.UseSwaggerUI(s =>
+            {
+                s.SwaggerEndpoint("/swagger/v1/swagger.json", "Code Maze API v1");
+                s.SwaggerEndpoint("/swagger/v2/swagger.json", "Code Maze API v2");
+            });
 
             app.UseEndpoints(endpoints =>
             {
