@@ -7,6 +7,7 @@ namespace Contracts
 {
     public interface IRepositoryManager
     {
+        IAisWebRepository AisWeb{ get; }
         ICompanyRepository Company { get; }
         IEmployeeRepository Employee { get; }
         Task SaveAsync();

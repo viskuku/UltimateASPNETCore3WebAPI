@@ -6,12 +6,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using Microsoft.Extensions.Configuration;
 
 namespace Repository
 {
     public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : class
     {
         protected RepositoryContext RepositoryContext;
+        
         public RepositoryBase(RepositoryContext repositoryContext)
         {
             RepositoryContext = repositoryContext;

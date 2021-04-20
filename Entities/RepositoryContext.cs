@@ -25,6 +25,7 @@ namespace Entities
 
         }
 
+        public DbSet<Aisweb> Aisweb { get; set; }
         public DbSet<Company> Companies { get; set; }
         public DbSet<Employee> Employees { get; set; }
     }

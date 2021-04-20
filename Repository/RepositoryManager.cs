@@ -12,12 +12,27 @@ namespace Repository
         private RepositoryContext _repositoryContext;
         private ICompanyRepository _companyRepository;
         private IEmployeeRepository _employeeRepository;
+        private IAisWebRepository _aisWebRepository;
        
-        public RepositoryManager(RepositoryContext repositoryContext)
+        public RepositoryManager(RepositoryContext repositoryContext
+            )
         {
             _repositoryContext = repositoryContext;
         }
-        
+
+
+        public IAisWebRepository AisWeb
+        {
+
+            get
+            {
+                if (_aisWebRepository == null)
+                    _aisWebRepository = new AisWebRepository(_repositoryContext);
+                return _aisWebRepository;
+            }
+
+        }
+
         public ICompanyRepository Company
         {
             get

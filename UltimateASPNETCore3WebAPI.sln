@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30621.155
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UltimateASPNETCore3WebAPI", "UltimateASPNETCore3WebAPI\UltimateASPNETCore3WebAPI.csproj", "{23BBF1E1-2A41-4A2D-A0F1-4E51472DE4F3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UltimateASPNETCore3WebAPI", "UltimateASPNETCore3WebAPI\UltimateASPNETCore3WebAPI.csproj", "{23BBF1E1-2A41-4A2D-A0F1-4E51472DE4F3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoggerService", "LoggerService\LoggerService.csproj", "{9234430F-C022-4EF7-970E-073DA85E0969}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Contracts", "Contracts\Contracts.csproj", "{EF30AE75-6B12-48A1-8083-60F4BCBCBEDA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entities", "Entities\Entities.csproj", "{5333ABAB-77F1-4C11-A265-96BF8907A3A8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Entities", "Entities\Entities.csproj", "{5333ABAB-77F1-4C11-A265-96BF8907A3A8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository", "Repository\Repository.csproj", "{3A4668B1-DC56-4444-91FD-B69FBA7EDC66}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repository", "Repository\Repository.csproj", "{3A4668B1-DC56-4444-91FD-B69FBA7EDC66}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
