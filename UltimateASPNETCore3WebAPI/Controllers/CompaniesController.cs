@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using AutoMapper;
 using Contracts;
@@ -12,6 +13,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using StackExchange.Redis;
 using UltimateASPNETCore3WebAPI.ActionFilters;
 using UltimateASPNETCore3WebAPI.ModelBinders;
 
@@ -26,15 +31,18 @@ namespace UltimateASPNETCore3WebAPI.Controllers
         private readonly IRepositoryManager _repository;
         private readonly ILoggerManager _logger;
         private readonly IMapper _mapper;
-    
+        private readonly IConfiguration _configuration;
+        private readonly IDistributedCache _cache;
 
 
-        public CompaniesController(IRepositoryManager repository, ILoggerManager logger, IMapper mapper)
+
+        public CompaniesController(IRepositoryManager repository, ILoggerManager logger, IMapper mapper, IConfiguration configuration, IDistributedCache cache)
         {
             _repository = repository;
             _logger = logger;
             _mapper = mapper;
-        
+            _configuration = configuration;
+            _cache = cache;
         }
 
         
@@ -49,11 +57,25 @@ namespace UltimateASPNETCore3WebAPI.Controllers
         /// Gets the list of all companies
         /// </summary>
         /// <returns>The companies list</returns>   
-        [HttpGet(Name = "GetCompanies"), Authorize]
+        [HttpGet(Name = "GetCompanies")]
+        //[HttpGet(Name = "GetCompanies"), Authorize]
         public async Task<IActionResult> GetCompanies()
         {
-            var companies = await _repository.Company.GetAllCompaniesAsync(trackChanges: false);
-            return Ok(companies);
+            var valorJSON = await _cache.GetStringAsync("CompaniesController-GetCompanies");
+
+            if (valorJSON == null)
+            {
+                var result = await _repository.Company.GetAllCompaniesAsync(trackChanges: false);
+
+                var opcoesCache = new DistributedCacheEntryOptions(); 
+                opcoesCache.SetAbsoluteExpiration(TimeSpan.FromMinutes(1));
+
+                await _cache.SetStringAsync("CompaniesController-GetCompanies", JsonSerializer.Serialize(result) , opcoesCache);
+
+            }
+            var saida = JsonSerializer.Deserialize<IEnumerable<Company>>(valorJSON);
+
+            return Ok(saida);
         }
 
         [HttpGet("{id}", Name = "CompanyById")]

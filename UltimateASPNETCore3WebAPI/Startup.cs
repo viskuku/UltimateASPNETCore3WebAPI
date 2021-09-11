@@ -22,6 +22,7 @@ using Repository.DataShaping;
 using UltimateASPNETCore3WebAPI.ActionFilters;
 using UltimateASPNETCore3WebAPI.Extensions;
 using UltimateASPNETCore3WebAPI.Utility;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 namespace UltimateASPNETCore3WebAPI
 {
@@ -41,14 +42,15 @@ namespace UltimateASPNETCore3WebAPI
         {
             services.AddAuthentication();
             services.ConfigureIdentity();
-            services.ConfigureJWT(Configuration);
+            services.ConfigureJwt(Configuration);
 
             services.AddScoped<ValidationFilterAttribute>();
             services.AddScoped<ValidateCompanyExistsAttribute>();
             services.AddScoped<ValidateMediaTypeAttribute>();
             services.AddScoped<ValidateEmployeeForCompanyExistsAttribute>();
+            
             services.AddScoped<IDataShaper<EmployeeDto>, DataShaper<EmployeeDto>>();
-
+            services.AddScoped<IAuthenticationManager, AuthenticationManager>();
             services.AddScoped<IAuthenticationManager, AuthenticationManager>();
 
             services.AddScoped<EmployeeLinks>();
@@ -65,7 +67,7 @@ namespace UltimateASPNETCore3WebAPI
                 options.SuppressModelStateInvalidFilter = true;
             });
             services.ConfigureCors();
-            services.ConfigureIISIntegration();
+            services.ConfigureIisIntegration();
             services.ConfigureLoggerService();
             services.ConfigureSqlContext(Configuration);
             services.ConfigureRepositoryManager();
@@ -82,9 +84,21 @@ namespace UltimateASPNETCore3WebAPI
             })
                 .AddNewtonsoftJson()
                 .AddXmlDataContractSerializerFormatters()
-                .AddCustomCSVFormatter();
+                .AddCustomCsvFormatter();
+
 
             services.AddCustomMediaTypes();
+            services.AddHealthChecks()
+                .AddSqlServer(
+                    "Server=localhost,1433;Database=UltimateASPNETCore3WebAPI; User Id=sa;Password=A1b2C3d4E5F6;");
+
+
+            services.AddDistributedRedisCache(options =>
+            {
+                options.Configuration =
+                    Configuration.GetConnectionString("ConexaoRedis"); 
+                //options.InstanceName = "UltimateASPNETCore3WebAPI-";
+            });
 
 
 
@@ -128,6 +142,8 @@ namespace UltimateASPNETCore3WebAPI
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHealthChecks("/health");
+
             });
         }
     }

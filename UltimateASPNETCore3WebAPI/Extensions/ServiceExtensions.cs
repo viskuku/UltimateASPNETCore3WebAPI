@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -22,7 +21,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace UltimateASPNETCore3WebAPI.Extensions
 {
@@ -37,7 +35,7 @@ namespace UltimateASPNETCore3WebAPI.Extensions
              .AllowAnyHeader());
          });
 
-        public static void ConfigureIISIntegration(this IServiceCollection services) =>
+        public static void ConfigureIisIntegration(this IServiceCollection services) =>
          services.Configure<IISOptions>(options =>
          { });
 
@@ -54,7 +52,7 @@ namespace UltimateASPNETCore3WebAPI.Extensions
         public static void ConfigureRepositoryManager(this IServiceCollection services) => services.AddScoped<IRepositoryManager, RepositoryManager>();
 
 
-        public static IMvcBuilder AddCustomCSVFormatter(this IMvcBuilder builder) => builder.AddMvcOptions(config => config.OutputFormatters.Add(new CsvOutputFormatter()));
+        public static IMvcBuilder AddCustomCsvFormatter(this IMvcBuilder builder) => builder.AddMvcOptions(config => config.OutputFormatters.Add(new CsvOutputFormatter()));
 
         public static void ConfigureVersioning(this IServiceCollection services)
         {
@@ -122,9 +120,8 @@ namespace UltimateASPNETCore3WebAPI.Extensions
             builder = new IdentityBuilder(builder.UserType, typeof(IdentityRole), builder.Services);
             builder.AddEntityFrameworkStores<RepositoryContext>().AddDefaultTokenProviders();
         }
-
-
-        public static void ConfigureJWT(this IServiceCollection services, IConfiguration configuration)
+        
+        public static void ConfigureJwt(this IServiceCollection services, IConfiguration configuration)
         {
             var jwtSettings = configuration.GetSection("JwtSettings");
             //var secretKey = Environment.GetEnvironmentVariable("SECRET");
